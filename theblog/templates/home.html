@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+
+
+{% block content %}
+<div class="row">
+{% for post in object_list %}
+
+<div class="col-md-4">
+    <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+            <small>{{ post.author.first_name }} {{ post.author.last_name }} | <a href="{% url 'category' post.category|slugify %}">{{ post.category }}</a> | {{ post.post_date }}</small>
+            <a href="{% url 'article-detail' post.pk %}"><h3 class="mb-0">{{ post.title }}</h3></a>
+            <div class="mb-1 text-muted">Nov 12</div>
+            <p class="card-text mb-auto">
+                {{ post.body|slice:50 }}
+            </p>
+            <div class="row">
+                <div class="col-4">
+                    <a href="{% url 'article-detail' post.pk %}">Read more...</a>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="col-4">
+                    <a href="{% url 'update_post' post.pk %}">Edit</a>
+                </div>
+                <div class="col-4">
+                    <a href="{% url 'delete_post' post.pk %}">Delete</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
